@@ -1,20 +1,18 @@
-import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import ShopPage from "./pages/ShopPage";
+import CartPage from "./pages/CartPage";
+import HistoryPage from "./pages/HistoryPage";
+import CouponsPage from "./pages/CouponsPage";
 
 function App() {
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/`)
-      .then((res) => res.text())
-      .then((data) => setMessage(data))
-      .catch((err) => console.error(err));
-  }, []);
-
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Frontend працює 😄</h1>
-      <p>Відповідь з бекенду:</p>
-      <h2>{message}</h2>
+    <div>
+      <Routes>
+        <Route path="/" element={<ShopPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/history" element={<HistoryPage />} />
+        <Route path="/coupons" element={<CouponsPage />} />
+      </Routes>
     </div>
   );
 }
