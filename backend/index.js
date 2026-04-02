@@ -1,46 +1,32 @@
 import express from "express";
 import cors from "cors";
-import { Pool } from "pg";
 import dotenv from "dotenv";
 
+import categoriesRoutes from "./routes/categoriesRoutes.js";
+import productsRoutes from "./routes/productsRoutes.js";
+import shopsRoutes from "./routes/shopsRoutes.js";
+import ordersRoutes from "./routes/ordersRoutes.js";
+
 dotenv.config();
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
 const PORT = process.env.PORT || 5000;
-const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD } = process.env;
 
-const pool = new Pool({
-  host: PGHOST,
-  database: PGDATABASE,
-  user: PGUSER,
-  password: PGPASSWORD,
-  port: 5432,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
+// routes
+app.use("/categories", categoriesRoutes);
+app.use("/products", productsRoutes);
+app.use("/shops", shopsRoutes);
+app.use("/orders", ordersRoutes);
 
-app.get("/categories", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT * FROM categories ORDER BY id");
-
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: "No categories found" });
-    }
-
-    res.status(200).json(result.rows);
-  } catch (error) {
-    console.error("Error fetching categories:", error);
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
+// health check
 app.get("/", (req, res) => {
   res.json({ status: "ok" });
 });
 
 app.listen(PORT, () => {
-  console.log("Server running on port 5000");
+  console.log(`Server running on port ${PORT}`);
 });
