@@ -14,13 +14,13 @@ const Header: React.FC = () => {
           Магазин
         </Link>
 
-        <Link to="/history" className="hover:text-black transition">
+        {/* <Link to="/history" className="hover:text-black transition">
           History
         </Link>
 
         <Link to="/coupons" className="hover:text-black transition">
           Coupons
-        </Link>
+        </Link> */}
       </nav>
 
       {/* 🛒 Кошик */}
